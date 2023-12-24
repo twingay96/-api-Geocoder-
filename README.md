@@ -222,6 +222,14 @@ after_validation :geocode의 기능은 다음과 같습니다:
         데이터 무결성 보장: 유효성 검사 후에 지오코딩을 실행함으로써, 데이터가 데이터베이스에 저장되기 전에 올바른 위치 데이터가 있는지 확인합니다. 
         만약 주소 필드가 비어 있거나 유효하지 않은 경우, 지오코딩은 실행되지 않습니다.
 
+정상동작하는지 확인하기위해서 rails c에서 특정도시의 address 를 조회:
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/fe1d5875-0ca2-4d18-835f-e23092b0b32e)
+
+해당 address를 입력하여 create 액션 실행해보기:
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/307c4fe5-1fb4-40a4-b078-1ae611c3e18a)
+
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/89dfceef-789b-4868-95dd-24211f20de50)
+
 하고 기존에 생성했던 location을 edit을 할때 변경된 address를 통해 자동으로 지오코딩을 수행하게끔 코드수정:
 
 ![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/930a8a2d-f64a-4ffe-bef6-89b8fd1db6ec)
@@ -241,6 +249,23 @@ Rails에서 모델 속성에 _changed? 접미사를 붙이면, 해당 속성이 
         유효성 검사(validation)가 수행된 후에
         :geocode 메소드를 실행하여 새로운 주소에 대한 지오코딩을 수행합니다.
         이렇게 설정함으로써, 주소가 변경되었을 때만 지오코딩 프로세스를 실행하여 불필요한 API 호출을 줄이고, 성능을 향상시킬 수 있습니다. 주소가 변경되지 않았다면, 이미 저장된 위도와 경도 정보는 유효하다고 가정하고, 지오코딩을 다시 실행할 필요가 없습니다.
+
+제대로 동작하는지 확인해보기:
+
+    ![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/4007eba6-36cb-4238-b5db-0624dd098b90)
+    ![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/8eb612ab-ae04-4867-a49a-8a754f5b5b73)
+
+기존의 Newyork의 address를 "Tokyo, Japan"로 변경(name과 address만 변경):
+
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/48466d46-3ef3-4922-80a7-fa28262dc8da)
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/81755ff0-6e11-483a-9dfc-4bcb9ec3f785)
+
+latitude와 longitude가 address를 기반으로 변경된 것을 확인 할수 있음.
+
+
+
+    
+
 
 
 
