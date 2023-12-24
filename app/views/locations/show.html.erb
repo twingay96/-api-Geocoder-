@@ -1,0 +1,19 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @location %>
+
+<div>
+  <%= link_to "Edit this location", edit_location_path(@location) %> 
+  <%= link_to "Back to locations", locations_path %>
+
+  <%= button_to "Destroy this location", @location, method: :delete %>
+</div>
+
+<h1>165마일 이내의도시:</h1>
+<br>
+<div> location객체 값: <%= @location %></div>
+<%= @location.nearbys(165).each do |location_far_165| %>
+  <div>도시명: <%= location_far_165.name%> </div>
+  <div>현재 도시와의 거리: <%=location_far_165.distance_to(@location)%> </div>
+<% end %>
+
