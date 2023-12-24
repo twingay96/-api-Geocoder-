@@ -9,11 +9,14 @@
   <%= button_to "Destroy this location", @location, method: :delete %>
 </div>
 
-<h1>165마일 이내의도시:</h1>
+<h1>165마일(265 킬로미터) 이내의도시:</h1>
 <br>
-<div> location객체 값: <%= @location %></div>
-<%= @location.nearbys(165).each do |location_far_165| %>
-  <div>도시명: <%= location_far_165.name%> </div>
-  <div>현재 도시와의 거리: <%=location_far_165.distance_to(@location)%> </div>
+<div> @location객체 값: <%= @location %></div>
+<br>
+<% if @location && @location.nearbys(265).present? %>
+  <%= @location.nearbys(265).each do |location_far_165| %>
+    <div>도시명: <%= location_far_165.name%> </div>
+    <div>현재 도시와의 거리: <%=location_far_165.distance_to(@location)%> </div>
+  <% end %>
 <% end %>
 

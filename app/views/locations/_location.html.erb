@@ -1,22 +1,20 @@
 <div id="<%= dom_id location %>">
+  <%# image_tag "https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-s+ef2525(126.971,37.5667)/126.971,37.5667,10.08,0/300x200?access_token=pk.eyJ1IjoiY2hvc3VuLW5pbmphLWhhdHRvcmkta2ltIiwiYSI6ImNscWJxczRtYjJmcWQya3J3a3VnYnRqeG4ifQ.s1rMyFIGk2Pkd-xuuuj31Q"%>
+  <%= image_tag "https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-s+ef2525(#{location.longitude},#{location.latitude})/#{location.longitude},#{location.latitude},10.08,0/300x200?access_token=pk.eyJ1IjoiY2hvc3VuLW5pbmphLWhhdHRvcmkta2ltIiwiYSI6ImNscWJxczRtYjJmcWQya3J3a3VnYnRqeG4ifQ.s1rMyFIGk2Pkd-xuuuj31Q"%>
   <p>
     <strong>Name:</strong>
     <%= location.name %>
   </p>
-
   <p>
     <strong>Address:</strong>
     <%= location.address %>
   </p>
-
   <p>
     <strong>Latitude:</strong>
     <%= location.latitude %>
   </p>
-
   <p>
     <strong>Longitude:</strong>
     <%= location.longitude %>
   </p>
-
 </div>

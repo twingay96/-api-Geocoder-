@@ -3,8 +3,8 @@
 <h1>Locations</h1>
 
 <%= form_with url: locations_path, method: :get do |form| %>
-  <%= form.text_field :place, value: params[:place] %>
-  <%= form.select :distance, [0,165,200]%>
+  <%= form.text_field :place %>
+  <%= form.select :distance, [0,265,322]%>
   <%= form.submit %>
 <% end %>
 
