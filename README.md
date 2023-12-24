@@ -95,7 +95,7 @@ seeds.rb에 입력(name과 address만 직접입력 후 geocoder로 latitude,long
 
     geocoded_by :address
 
-![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/e97cc96e-29de-45a7-838b-7cc2fc2e4b49)
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/7f272ffa-2e0f-4c20-86a0-5a83f5706bba)
 
 geocoded_by 메서드는 모델에 지오코딩 기능을 추가하는 Geocoder gem의 클래스 메서드입니다. 이 메서드를 사용하면 주어진 주소의 위도와 경도를 자동으로 찾아 해당 모델의 인스턴스에 저장할 수 있습니다. 
 
@@ -141,6 +141,18 @@ geocoded_by 메서드는 모델에 지오코딩 기능을 추가하는 Geocoder 
 ![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/4104859c-343e-4462-9739-8afa72d1aad5)
 ![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/7bf5ceb4-527d-4e3a-98db-06d0f2f17b1f)
 
+Rails에서 HTML 폼이 제출될 때, 폼에 있는 각 입력 필드의 name 속성 값이 URL의 쿼리 스트링으로 전송되며, 이는 params 해시에 자동으로 매핑,
+각 입력 필드의 name 속성 값은 params 해시의 키가 되며, 사용자가 입력하거나 선택한 값이 해당 키의 값이 됩니다.
+즉 다시말해서,  "<%= form.select :distance, [0,265.54,321.87]%>" 처럼 params를 따로 지정하지 않더라도 name으로 지정된 :distance가 params로전달됨. 
+params를 따로설정안하면 name을 기준으로  URL의 쿼리 스트링(query string)으로 전송하여서 자동으로 params를 생성함
+
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/bc42f189-9215-4c70-b619-8e180b814560)
+
+때문에 <%= form.text_field :place, :params[:place] %>에서 굳이 :params[:place]를 넣지 않더라도, name이 :place로 설정되어 있기에, 
+컨트롤러에서 params[:place]로 접근이 가능함.
+
+
+
 이제 상세보기 페이지에서 현재 도시에서 가까운 도시의 정보 출력하기(ModelName.nearbys 메소드 사용, 자기자신을 제외하고 거리이내에 도시들을 반환):
 
 ![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/25dbb452-dfa0-42da-af74-2f44248676fb)
@@ -158,9 +170,87 @@ distance_to 메소드 사용:
 
     rails generate geocoder:config
     
-명령어 실행후, geocoder.rb파일의 units 수정:
+명령어 실행후, geocoder.rb파일의 units를 km로 수정:
 
 ![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/593e8222-3efb-4c3a-a2b0-1390f444912b)
+
+후에 뷰와 컨트롤러에 마일단위로 넣은 값들을 다시 km로 수정해준다, 이때 소수점을 넣게되면 이상하게 오작동하는 문제가발생:
+
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/5aa732e3-6c26-4cf2-af25-d1294255dc41)
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/212a8541-eb6b-44ac-ba75-2d683ae25ec3)
+
+이제 mapbox를 사용해서 지도이미지 출력기능 구현:
+
+https://account.mapbox.com/
+
+계정생성후 playground로 이동:
+
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/de7c9308-1729-4fda-8261-67551c6890a8)
+
+Longitude: 126.9782914 Latitude: 37.5666791 로 설정하고 오버레이를 배치하면:
+
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/2abc923b-aa8c-4cff-a3bc-c899196cb5d6)
+
+에서 Request URL(get요청)을 통해서 사용가능함:
+
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/1028a660-7212-4240-a2b0-122362ab9f5a)
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/3a4de4d3-40bb-4c6e-a31e-f6f2067dfdac)
+
+API(Application Programming Interface)는 일반적으로 클라이언트와 서버 간의 통신을 위해 사용되는 인터페이스, 
+웹 API의 경우, 클라이언트는 HTTP 요청을 통해 URL(Uniform Resource Locator)을 사용하여 서버에 데이터를 요청하거나 서버에 데이터를 보냅니다.
+API를 사용할 때는 URL을 통해 특정 엔드포인트(endpoint)에 접근하며, 이 엔드포인트는 데이터를 요청하거나 조작하는 데 필요한 로직을 처리합니다. 
+클라이언트는 URL을 통해 API와 통신하고, API는 요청에 따라 데이터를 JSON, XML 또는 다른 형식으로 응답합니다.
+이때 img태그는 get요청
+
+각 도시마다 알맞은 지도위치를 표시하기:
+
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/6a81d5da-1e2d-40c5-9665-682c937fd5ba)
+
+를 #{}를 사용해서 각도시(각 location 객체)마다 위치정보를 다르게 변경:
+
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/ab2defd4-fb3b-43b9-9081-ec2a98559bde)
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/10d42abd-ae2b-46b6-9ea1-3798136cec5f)
+
+이제 새로운 location을 create할때 사용자가 입력한 address를 기반으로 자동으로 Longitude값 ,Latitude값을 컬럼에 넣어주는 기능(지오코딩)을 구현:
+
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/23a6fd9f-d6f6-4d93-aefd-cef1fe94c39b)
+
+after_validation :geocode의 기능은 다음과 같습니다:
+
+        지오코딩 실행: geocoded_by :address로 지정된 필드(여기서는 address)에 기반하여 지오코딩을 수행합니다. 지오코딩은 주소를 위도와 경도의 좌표로 변환하는 과정입니다.
+        자동 좌표 할당: 지오코딩이 성공적으로 완료되면, 반환된 위도와 경도의 값이 해당 객체의 latitude와 longitude 속성에 자동으로 할당됩니다.
+        데이터 무결성 보장: 유효성 검사 후에 지오코딩을 실행함으로써, 데이터가 데이터베이스에 저장되기 전에 올바른 위치 데이터가 있는지 확인합니다. 
+        만약 주소 필드가 비어 있거나 유효하지 않은 경우, 지오코딩은 실행되지 않습니다.
+
+하고 기존에 생성했던 location을 edit을 할때 변경된 address를 통해 자동으로 지오코딩을 수행하게끔 코드수정:
+
+![image](https://github.com/twingay96/-api-Geocoder-/assets/64403357/930a8a2d-f64a-4ffe-bef6-89b8fd1db6ec)
+
+
+if: :address_changed?는 after_validation 콜백의 조건부 실행을 위해 사용되는 옵션입니다. 
+이 조건은 Location 모델의 address 속성이 변경되었는지 여부를 체크합니다. 만약 address 속성에 변경사항이 있을 때만 :geocode 메소드를 호출하도록 지정하는 것입니다.
+
+Rails에서 모델 속성에 _changed? 접미사를 붙이면, 해당 속성이 마지막으로 저장된 이후에 변경되었는지 여부를 반환하는 메소드가 됩니다. 
+이는 "Dirty" 체킹이라고 불리며, Rails의 Active Model Dirty 모듈에서 제공하는 기능입니다.
+
+예를 들어, address_changed? 메소드는 address 속성이 마지막 저장 이후에 변경되었으면 true를, 그렇지 않으면 false를 반환합니다.
+
+따라서, after_validation :geocode, if: :address_changed? 코드는 다음과 같은 작동을 합니다:
+
+        객체의 address 속성에 변화가 있을 때 (예: 새로운 주소로 업데이트 될 때)
+        유효성 검사(validation)가 수행된 후에
+        :geocode 메소드를 실행하여 새로운 주소에 대한 지오코딩을 수행합니다.
+        이렇게 설정함으로써, 주소가 변경되었을 때만 지오코딩 프로세스를 실행하여 불필요한 API 호출을 줄이고, 성능을 향상시킬 수 있습니다. 주소가 변경되지 않았다면, 이미 저장된 위도와 경도 정보는 유효하다고 가정하고, 지오코딩을 다시 실행할 필요가 없습니다.
+
+
+
+
+
+
+
+
+
+
 
 
 
