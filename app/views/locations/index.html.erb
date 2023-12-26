@@ -1,5 +1,6 @@
 <p style="color: green"><%= notice %></p>
 
+<div data-controller="geolocation"><button data-action="geolocation#search">Search near me</button></div>
 <h1>Locations</h1>
 <%= js_map locations_path(format: :json, place: params[:place], distance: params[:distance]),
             width: "600px", height: "450px", 
