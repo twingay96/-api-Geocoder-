@@ -10,6 +10,7 @@ module Testing
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+    #ENV["MAPBOX_ACCESS_TOKEN"] = "pk.eyJ1IjoiY2hvc3VuLW5pbmphLWhhdHRvcmkta2ltIiwiYSI6ImNscWJxczRtYjJmcWQya3J3a3VnYnRqeG4ifQ.s1rMyFIGk2Pkd-xuuuj31Q"
 
     # Configuration for the application, engines, and railties goes here.
     #

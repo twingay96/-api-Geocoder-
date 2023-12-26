@@ -1,6 +1,12 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Locations</h1>
+<%= js_map locations_path(format: :json, place: params[:place], distance: params[:distance]),
+            width: "600px", height: "450px", 
+            markers: {color: "#f84d4d"}, 
+            style: "mapbox://styles/mapbox/outdoors-v12",
+            zoom: 4 ,controls: true,
+            tooltips: {hover: false, html: true}%>
 
 <%= form_with url: locations_path, method: :get do |form| %>
   <%= form.text_field :place %>
@@ -10,6 +16,12 @@
 
 <div id="locations">
   <% @locations.each do |location| %>
+
+    <%# js_map [{latitude: location.latitude, longitude: location.longitude,label: location.name, tooltip: html_link_to(location) }],
+    width: "300px", height: "250px",
+    zoom: 15,controls: true ,
+    tooltips: {hover: false, html: true} %>
+
     <%= render location %>
     <p>
       <%= link_to "Show this location", location %>

@@ -7,7 +7,6 @@ class LocationsController < ApplicationController
       @locations = Location.near(params[:place],params[:distance] || 322, order: :distance)
     else
       @locations = Location.all
-
     end
   end
 
