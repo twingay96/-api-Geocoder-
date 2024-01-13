@@ -12,7 +12,8 @@ class Location < ApplicationRecord
         results = Geocoder.search(self.address)
         # 결과가 없거나 주소가 조회되지 않으면 에러를 추가합니다.
         if results.empty?
-          errors.add(:address, "는 조회되지 않는 주소입니다.")
+          self.errors.add(:address, "[#{self.address}] 는 조회되지 않는 주소입니다.")
+          #binding.b
         end
       end
 end
