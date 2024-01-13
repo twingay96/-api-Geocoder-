@@ -1,3 +1,5 @@
+읽는 순서 : README.md -> mapkick추가.md -> GeolocationAPI(수정후).md -> 유효성검사 추가.md
+
 참조 : https://github.com/alexreisner/geocoder?tab=readme-ov-file#geospatial-calculations
 
 Geocoder는 지리적 코딩(geocoding) 및 반대 지리적 코딩(reverse geocoding) 기능을 제공합니다. 
